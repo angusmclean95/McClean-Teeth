@@ -61,7 +61,7 @@ namespace McClean_Teeth
             picLogo.Width = (int)(pnlCard.Width * 0.4);
             picLogo.Height = pnlCard.Height - 200;
 
-            // Set the logo's position to the top right corner of the panel
+            // Set the logo's position to the top right corner of the panel 
             picLogo.Location = new Point(
                 pnlCard.Width - picLogo.Width - 75,
                 100
