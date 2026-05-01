@@ -10,15 +10,14 @@ using System.Windows.Forms;
 
 namespace McClean_Teeth
 {
-    public partial class AuthForm : Form
+    public partial class RegistrationForm : Form
     {
-        public AuthForm()
+        public RegistrationForm()
         {
             InitializeComponent();
 
             InitForm();
             InitPanel();
-            InitLogo();
             InitInput();
         }
 
@@ -51,23 +50,6 @@ namespace McClean_Teeth
             );
         }
 
-        /**
-         * We will use this method to update the logo's
-         * properties such as the size and location.
-         */
-        private void InitLogo()
-        {
-            // Sets the logo size to be 40% of the panel's width and 100% of the panel's height
-            picLogo.Width = (int)(pnlCard.Width * 0.4);
-            picLogo.Height = pnlCard.Height - 200;
-
-            // Set the logo's position to the top right corner of the panel   
-            picLogo.Location = new Point(
-                pnlCard.Width - picLogo.Width - 75,
-                100
-            );
-        }
-
         private void InitInput()
         {
             // Set the input panel's size to be 50% of the panel's width and 100% of the panel's height
@@ -88,24 +70,38 @@ namespace McClean_Teeth
             lblSubtitle.Location = new Point(-5, lblSubtitle.Location.Y);
             lblSubtitle.ForeColor = Variables.FOREGROUND_COLOUR;
 
-            // Username
-            TextBox usernameEmailBox = UIUtil.CreateInput(pnlInput, "Email or Username", 240);
+            // Names
+            InputPair namesPair = UIUtil.CreateInputPair(pnlInput, "Forename", "Surname", 240);
+            TextBox forename = namesPair.GetFirst();
+            TextBox surname = namesPair.GetSecond();
 
-            // Password
-            TextBox passwordBox = UIUtil.CreatePasswordInput(pnlInput, "Password", 340);
+            //Address Line 1 & 2
+            TextBox addressLineOne = UIUtil.CreateInput(pnlInput, "Address Line 1", 340);
+            TextBox addressLinetwo = UIUtil.CreateInput(pnlInput, "Address Line 2", 440);
+
+            // Postcode and City
+            InputPair addressPair = UIUtil.CreateInputPair(pnlInput, "Postcode", "City", 540);
+            TextBox postcode = addressPair.GetFirst();
+            TextBox city = addressPair.GetSecond();
+
+            // Email Address
+            TextBox emailAddress = UIUtil.CreateInput(pnlInput, "Email Address", 640);
+
+            // Password and Confirm
+            InputPair passwordPair = UIUtil.CreatePasswordInputPair(pnlInput, "Password", "Confirm Password", 740);
+            TextBox password = passwordPair.GetFirst();
+            TextBox confirmPassword = passwordPair.GetSecond();
+
+            Label account = new Label();
+            account.Text = "Already got an account? Log in here!";
+            account.AutoSize = true;
+            account.ForeColor = Variables.FOREGROUND_COLOUR;
+            account.Font = new Font("Segoe UI", 16);
+            account.Location = new Point(-5, 820);
+            pnlInput.Controls.Add(account);
 
             // Confirm Button
-            Button confirmButton = UIUtil.CreateInputConfirmButton(pnlInput, "Login", pnlInput.Height - 160);
-
-            // Create Account Button
-            Button createAccountButton = UIUtil.CreateInputSecondaryButton(pnlInput, "Create Account", pnlInput.Height - 90);
-            createAccountButton.Click += (sender, e) =>
-            {
-                this.Hide();
-
-                RegistrationForm registrationForm = new RegistrationForm();
-                registrationForm.ShowDialog();
-            };
+            Button confirmButton = UIUtil.CreateInputConfirmButton(pnlInput, "Register Account", 860);
         }
     }
 }
