@@ -103,5 +103,10 @@ namespace McClean_Teeth
             // Confirm Button
             Button confirmButton = UIUtil.CreateInputConfirmButton(pnlInput, "Register Account", 860);
         }
+
+        private void pnlCard_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
