@@ -97,6 +97,8 @@ namespace McClean_Teeth
             // Confirm Button
             Button confirmButton = UIUtil.CreateInputConfirmButton(pnlInput, "Login", pnlInput.Height - 160);
 
+            ClickConfirm(confirmButton, usernameEmailBox, passwordBox);
+
             // Create Account Button
             Button createAccountButton = UIUtil.CreateInputSecondaryButton(pnlInput, "Create Account", pnlInput.Height - 90);
             createAccountButton.Click += (sender, e) =>
@@ -105,6 +107,22 @@ namespace McClean_Teeth
 
                 RegistrationForm registrationForm = new RegistrationForm();
                 registrationForm.ShowDialog();
+            };
+        }
+
+        private void ClickConfirm(Button confirm, TextBox usernameEmailBox, TextBox passwordBox)
+        {
+            confirm.Click += (sender, e) =>
+            {
+                string username = usernameEmailBox.Text;
+                string password = passwordBox.Text;
+                if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password)) 
+                {
+                    MessageBox.Show("Please enter valid Username and Password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                
             };
         }
     }
