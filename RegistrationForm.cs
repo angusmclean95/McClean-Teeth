@@ -97,6 +97,13 @@ namespace McClean_Teeth
             account.ForeColor = Variables.FOREGROUND_COLOUR;
             account.Font = new Font("Segoe UI", 16);
             account.Location = new Point(-5, 720);
+            account.Click += (sender, e) =>
+            {
+                this.Hide();
+
+                AuthForm lgoinForm = new AuthForm();
+                lgoinForm.ShowDialog();
+            };
             pnlInput.Controls.Add(account);
 
             // Confirm Button
