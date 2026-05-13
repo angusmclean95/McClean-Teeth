@@ -174,6 +174,7 @@ namespace McClean_Teeth
             box.UseSystemPasswordChar = true;
 
             PictureBox toggle = new PictureBox();
+            toggle.BackColor = Color.White;
             toggle.Size = new Size(32, 32);
             toggle.Location = new Point(
                 x + width - 38,
