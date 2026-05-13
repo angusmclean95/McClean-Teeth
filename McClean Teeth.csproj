@@ -66,6 +66,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Util\UIUtil.cs" />
+    <Compile Include="Util\ValidationUtil.cs" />
     <Compile Include="Variables.cs" />
     <EmbeddedResource Include="RegistrationForm.resx">
       <DependentUpon>RegistrationForm.cs</DependentUpon>

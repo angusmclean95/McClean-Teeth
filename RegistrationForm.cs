@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace McClean_Teeth
 {
@@ -76,7 +77,7 @@ namespace McClean_Teeth
             TextBox surname = namesPair.GetSecond();
 
             //Address Line 1 & 2
-            TextBox addressLineOne = UIUtil.CreateInput(pnlInput, "Address Line", 340);
+            TextBox addressLine = UIUtil.CreateInput(pnlInput, "Address Line", 340);
 
             // Postcode and City
             InputPair addressPair = UIUtil.CreateInputPair(pnlInput, "Postcode", "City", 440);
@@ -108,6 +109,51 @@ namespace McClean_Teeth
 
             // Confirm Button
             Button confirmButton = UIUtil.CreateInputConfirmButton(pnlInput, "Register Account", 760);
+            ClickConfirm(confirmButton, forename, surname, addressLine, postcode, city, emailAddress, password, confirmPassword);
+        }
+
+        private void ClickConfirm(Button confirm, TextBox forename, TextBox surname, TextBox addressLine, TextBox postcode, TextBox city, TextBox emailAddress, TextBox password, TextBox confirmPassword)
+        {
+            confirm.Click += (sender, e) =>
+            {
+                if (ValidationUtil.isNullOrEmpty(forename, surname, addressLine, postcode, city, emailAddress, password, confirmPassword))
+                {
+                    MessageBox.Show("Please fill in all fields required.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                string inputtedPostcode = postcode.Text;
+                if(!ValidationUtil.isValidPostcode(inputtedPostcode))
+                {
+                    MessageBox.Show("Please enter a valid Postcode", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+               
+                string inputtedEmail = emailAddress.Text;
+                if(!ValidationUtil.isValidEmailAddress(inputtedEmail))
+                {
+                    MessageBox.Show("Please enter a valid Email Address", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                string inputtedPassword = password.Text;
+                string inputtedConfirmPassword = confirmPassword.Text;
+
+                if (!ValidationUtil.isMatching(inputtedPassword, inputtedConfirmPassword))
+                {
+                    MessageBox.Show("Password's do not match, Please try again", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (!ValidationUtil.isValidPassword(inputtedPassword))
+                {
+                    MessageBox.Show("Please enter a valid Password. Minimum of 8 characters containing at least 1 Uppercase, 1 Lowercase, 1 number & 1 symbol", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+
+            };
         }
     }
 }

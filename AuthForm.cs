@@ -122,7 +122,6 @@ namespace McClean_Teeth
                     return;
                 }
 
-                
             };
         }
     }
