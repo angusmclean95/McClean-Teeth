@@ -45,7 +45,7 @@ namespace McClean_Teeth
         public static InputPair CreateInputPair(Panel panel, string placeholder1, string placeholder2, int y)
         {
             int totalSpacing = PAIR_SPACING;
-            int width = (panel.Width - totalSpacing) / 2;
+            int width = ((int)(panel.Width * 0.9) - totalSpacing) / 2;
 
             int x1 = 0;
             int x2 = width + PAIR_SPACING;
@@ -144,7 +144,7 @@ namespace McClean_Teeth
 
         public static InputPair CreatePasswordInputPair(Panel panel, string placeholder1, string placeholder2, int y)
         {
-            int width = (panel.Width - PAIR_SPACING) / 2;
+            int width = ((int)(panel.Width * 0.9) - PAIR_SPACING) / 2;
 
             int x1 = 0;
             int x2 = width + PAIR_SPACING;
@@ -174,6 +174,7 @@ namespace McClean_Teeth
             box.UseSystemPasswordChar = true;
 
             PictureBox toggle = new PictureBox();
+            toggle.BackColor = Color.White;
             toggle.Size = new Size(32, 32);
             toggle.Location = new Point(
                 x + width - 38,
