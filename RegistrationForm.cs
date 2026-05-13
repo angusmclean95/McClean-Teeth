@@ -76,19 +76,18 @@ namespace McClean_Teeth
             TextBox surname = namesPair.GetSecond();
 
             //Address Line 1 & 2
-            TextBox addressLineOne = UIUtil.CreateInput(pnlInput, "Address Line 1", 340);
-            TextBox addressLinetwo = UIUtil.CreateInput(pnlInput, "Address Line 2", 440);
+            TextBox addressLineOne = UIUtil.CreateInput(pnlInput, "Address Line", 340);
 
             // Postcode and City
-            InputPair addressPair = UIUtil.CreateInputPair(pnlInput, "Postcode", "City", 540);
+            InputPair addressPair = UIUtil.CreateInputPair(pnlInput, "Postcode", "City", 440);
             TextBox postcode = addressPair.GetFirst();
             TextBox city = addressPair.GetSecond();
 
             // Email Address
-            TextBox emailAddress = UIUtil.CreateInput(pnlInput, "Email Address", 640);
+            TextBox emailAddress = UIUtil.CreateInput(pnlInput, "Email Address", 540);
 
             // Password and Confirm
-            InputPair passwordPair = UIUtil.CreatePasswordInputPair(pnlInput, "Password", "Confirm Password", 740);
+            InputPair passwordPair = UIUtil.CreatePasswordInputPair(pnlInput, "Password", "Confirm Password", 640);
             TextBox password = passwordPair.GetFirst();
             TextBox confirmPassword = passwordPair.GetSecond();
 
@@ -97,11 +96,11 @@ namespace McClean_Teeth
             account.AutoSize = true;
             account.ForeColor = Variables.FOREGROUND_COLOUR;
             account.Font = new Font("Segoe UI", 16);
-            account.Location = new Point(-5, 820);
+            account.Location = new Point(-5, 720);
             pnlInput.Controls.Add(account);
 
             // Confirm Button
-            Button confirmButton = UIUtil.CreateInputConfirmButton(pnlInput, "Register Account", 860);
+            Button confirmButton = UIUtil.CreateInputConfirmButton(pnlInput, "Register Account", 760);
         }
 
         private void pnlCard_Paint(object sender, PaintEventArgs e)
