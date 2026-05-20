@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using McClean_Teeth.Util.UI_Components.Inputs.types;
 
 namespace McClean_Teeth
 {
@@ -20,11 +21,11 @@ namespace McClean_Teeth
             return !string.IsNullOrEmpty(fieldText);
         }
 
-        public static bool isNullOrEmpty(params TextBox[] boxes)
+        public static bool isNullOrEmpty(params TextBoxInput[] boxes)
         {
-            foreach (TextBox item in boxes)
+            foreach (TextBoxInput item in boxes)
             {
-                if (string.IsNullOrEmpty(item.Text))
+                if (string.IsNullOrEmpty(item.Control.Text))
                 {
                     return true;
                 }

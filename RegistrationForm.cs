@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using McClean_Teeth.Util.UI_Components.Inputs;
+using McClean_Teeth.Util.UI_Components.Inputs.types;
 
 namespace McClean_Teeth
 {
@@ -72,25 +74,25 @@ namespace McClean_Teeth
             lblSubtitle.ForeColor = Variables.FOREGROUND_COLOUR;
 
             // Names
-            InputPair namesPair = UIUtil.CreateInputPair(pnlInput, "Forename", "Surname", 240);
-            TextBox forename = namesPair.GetFirst();
-            TextBox surname = namesPair.GetSecond();
+            InputPair<TextBoxInput> namesPair = UIInputFactory.CreateTextBoxPair(pnlInput, "Forename", "Surname", 240);
+            TextBoxInput forename = namesPair.GetFirst();
+            TextBoxInput surname = namesPair.GetSecond();
 
             //Address Line 1 & 2
-            TextBox addressLine = UIUtil.CreateInput(pnlInput, "Address Line", 340);
+            TextBoxInput addressLine = UIInputFactory.CreateTextBox(pnlInput, "Address Line", 340);
 
             // Postcode and City
-            InputPair addressPair = UIUtil.CreateInputPair(pnlInput, "Postcode", "City", 440);
-            TextBox postcode = addressPair.GetFirst();
-            TextBox city = addressPair.GetSecond();
+            InputPair<TextBoxInput> addressPair = UIInputFactory.CreateTextBoxPair(pnlInput, "Postcode", "City", 440);
+            TextBoxInput postcode = addressPair.GetFirst();
+            TextBoxInput city = addressPair.GetSecond();
 
             // Email Address
-            TextBox emailAddress = UIUtil.CreateInput(pnlInput, "Email Address", 540);
+            TextBoxInput emailAddress = UIInputFactory.CreateTextBox(pnlInput, "Email Address", 540);
 
             // Password and Confirm
-            InputPair passwordPair = UIUtil.CreatePasswordInputPair(pnlInput, "Password", "Confirm Password", 640);
-            TextBox password = passwordPair.GetFirst();
-            TextBox confirmPassword = passwordPair.GetSecond();
+            InputPair<TextBoxInput> passwordPair = UIInputFactory.CreateTextBoxPair(pnlInput, "Password", "Confirm Password", 640);
+            TextBoxInput password = passwordPair.GetFirst();
+            TextBoxInput confirmPassword = passwordPair.GetSecond();
 
             Label account = new Label();
             account.Text = "Already got an account? Log in here!";
@@ -108,11 +110,11 @@ namespace McClean_Teeth
             pnlInput.Controls.Add(account);
 
             // Confirm Button
-            Button confirmButton = UIUtil.CreateInputConfirmButton(pnlInput, "Register Account", 760);
+            Button confirmButton = UIUtil.CreateConfirmButton(pnlInput, "Register Account", 760);
             ClickConfirm(confirmButton, forename, surname, addressLine, postcode, city, emailAddress, password, confirmPassword);
         }
 
-        private void ClickConfirm(Button confirm, TextBox forename, TextBox surname, TextBox addressLine, TextBox postcode, TextBox city, TextBox emailAddress, TextBox password, TextBox confirmPassword)
+        private void ClickConfirm(Button confirm, TextBoxInput forename, TextBoxInput surname, TextBoxInput addressLine, TextBoxInput postcode, TextBoxInput city, TextBoxInput emailAddress, TextBoxInput password, TextBoxInput confirmPassword)
         {
             confirm.Click += (sender, e) =>
             {
@@ -122,7 +124,7 @@ namespace McClean_Teeth
                     return;
                 }
 
-                string inputtedPostcode = postcode.Text;
+                string inputtedPostcode = postcode.Control.Text;
                 if(!ValidationUtil.isValidPostcode(inputtedPostcode))
                 {
                     MessageBox.Show("Please enter a valid Postcode", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -130,15 +132,15 @@ namespace McClean_Teeth
                 }
 
                
-                string inputtedEmail = emailAddress.Text;
+                string inputtedEmail = emailAddress.Control.Text;
                 if(!ValidationUtil.isValidEmailAddress(inputtedEmail))
                 {
                     MessageBox.Show("Please enter a valid Email Address", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                string inputtedPassword = password.Text;
-                string inputtedConfirmPassword = confirmPassword.Text;
+                string inputtedPassword = password.Control.Text;
+                string inputtedConfirmPassword = confirmPassword.Control.Text;
 
                 if (!ValidationUtil.isMatching(inputtedPassword, inputtedConfirmPassword))
                 {

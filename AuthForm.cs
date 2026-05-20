@@ -7,6 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using McClean_Teeth.Util.UI_Components.Inputs;
+using McClean_Teeth.Util.UI_Components.Inputs.types;
+using McClean_Teeth.Util.UI_Components.Inputs.types.McClean_Teeth;
 
 namespace McClean_Teeth
 {
@@ -89,18 +92,18 @@ namespace McClean_Teeth
             lblSubtitle.ForeColor = Variables.FOREGROUND_COLOUR;
 
             // Username
-            TextBox usernameEmailBox = UIUtil.CreateInput(pnlInput, "Email or Username", 240);
+            TextBoxInput usernameEmailBox = UIInputFactory.CreateTextBox(pnlInput, "Email or Username", 240);
 
             // Password
-            TextBox passwordBox = UIUtil.CreatePasswordInput(pnlInput, "Password", 340);
+            PasswordInput passwordBox = UIInputFactory.CreatePasswordInput(pnlInput, "Password", 340);
 
             // Confirm Button
-            Button confirmButton = UIUtil.CreateInputConfirmButton(pnlInput, "Login", pnlInput.Height - 160);
+            Button confirmButton = UIUtil.CreateConfirmButton(pnlInput, "Login", pnlInput.Height - 160);
 
             ClickConfirm(confirmButton, usernameEmailBox, passwordBox);
 
             // Create Account Button
-            Button createAccountButton = UIUtil.CreateInputSecondaryButton(pnlInput, "Create Account", pnlInput.Height - 90);
+            Button createAccountButton = UIUtil.CreateSecondaryButton(pnlInput, "Create Account", pnlInput.Height - 90);
             createAccountButton.Click += (sender, e) =>
             {
                 RegistrationForm registrationForm = new RegistrationForm();
@@ -110,12 +113,17 @@ namespace McClean_Teeth
             };
         }
 
-        private void ClickConfirm(Button confirm, TextBox usernameEmailBox, TextBox passwordBox)
+        private void ClickConfirm(Button confirm, TextBoxInput usernameEmailBox, PasswordInput passwordBox)
         {
             confirm.Click += (sender, e) =>
             {
-                string username = usernameEmailBox.Text;
-                string password = passwordBox.Text;
+                BookingForm form = new BookingForm(new User(usernameEmailBox.Control.Text, passwordBox.Control.Text));
+                form.ShowDialog();
+                this.Close();
+                return;
+
+                string username = usernameEmailBox.Control.Text;
+                string password = passwordBox.Control.Text;
                 if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password)) 
                 {
                     MessageBox.Show("Please enter valid Username and Password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
