@@ -9,23 +9,23 @@ namespace McClean_Teeth.Util.UI_Components.Inputs
 {
     public class InputPair<T> where T : UIInput
     {
-        private T _first;
-        private T _second;
+        private T first;
+        private T second;
 
         public InputPair(T first, T second)
         {
-            _first = first;
-            _second = second;
+            this.first = first;
+            this.second = second;
         }
 
         public T GetFirst()
         {
-            return _first;
+            return first;
         }
 
         public T GetSecond()
         {
-            return _second;
+            return second;
         }
     }
 }

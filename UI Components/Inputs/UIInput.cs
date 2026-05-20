@@ -9,7 +9,7 @@ namespace McClean_Teeth.Util.UI_Components.Inputs
 {
     public abstract class UIInput
     {
-        protected Label _label;
+        protected Label label;
 
         public abstract void AddToPanel(Panel panel);
 

@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using McClean_Teeth.Util.UI_Components.Inputs;
 using McClean_Teeth.Util.UI_Components.Inputs.types;
-using McClean_Teeth.Util.UI_Components.Inputs.types.McClean_Teeth;
 
 namespace McClean_Teeth
 {
@@ -98,12 +97,12 @@ namespace McClean_Teeth
             PasswordInput passwordBox = UIInputFactory.CreatePasswordInput(pnlInput, "Password", 340);
 
             // Confirm Button
-            Button confirmButton = UIUtil.CreateConfirmButton(pnlInput, "Login", pnlInput.Height - 160);
+            Button confirmButton = UIInputFactory.CreatePrimaryButton(pnlInput, "Login", pnlInput.Height - 160);
 
             ClickConfirm(confirmButton, usernameEmailBox, passwordBox);
 
             // Create Account Button
-            Button createAccountButton = UIUtil.CreateSecondaryButton(pnlInput, "Create Account", pnlInput.Height - 90);
+            Button createAccountButton = UIInputFactory.CreateSecondaryButton(pnlInput, "Create Account", pnlInput.Height - 90);
             createAccountButton.Click += (sender, e) =>
             {
                 RegistrationForm registrationForm = new RegistrationForm();
@@ -117,11 +116,6 @@ namespace McClean_Teeth
         {
             confirm.Click += (sender, e) =>
             {
-                BookingForm form = new BookingForm(new User(usernameEmailBox.Control.Text, passwordBox.Control.Text));
-                form.ShowDialog();
-                this.Close();
-                return;
-
                 string username = usernameEmailBox.Control.Text;
                 string password = passwordBox.Control.Text;
                 if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password)) 
@@ -130,6 +124,9 @@ namespace McClean_Teeth
                     return;
                 }
 
+                BookingForm form = new BookingForm(new User(usernameEmailBox.Control.Text, passwordBox.Control.Text));
+                form.ShowDialog();
+                this.Close();
             };
         }
     }

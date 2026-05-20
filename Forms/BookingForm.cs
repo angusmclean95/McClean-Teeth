@@ -81,10 +81,10 @@ namespace McClean_Teeth
             moreInfo.Control.Multiline = true;
             moreInfo.Control.Height = 300;
 
-            MonthCalendarInput date = UIInputFactory.CreateMonthCalendar(pnlInput2, "Please select a preferred date and time", 150);
+            CalendarInput date = UIInputFactory.CreateMonthCalendar(pnlInput2, "Please select a preferred date and time", 150);
 
             // Confirm Button
-            Button confirmButton = UIUtil.CreateConfirmButton(pnlInput, "Book Appointment", 600);
+            Button confirmButton = UIInputFactory.CreatePrimaryButton(pnlInput, "Book Appointment", 600);
             //ClickConfirm(confirmButton, forename, surname, addressLine, postcode, city, emailAddress, password, confirmPassword);
         }
 

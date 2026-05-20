@@ -110,7 +110,7 @@ namespace McClean_Teeth
             pnlInput.Controls.Add(account);
 
             // Confirm Button
-            Button confirmButton = UIUtil.CreateConfirmButton(pnlInput, "Register Account", 760);
+            Button confirmButton = UIInputFactory.CreatePrimaryButton(pnlInput, "Register Account", 760);
             ClickConfirm(confirmButton, forename, surname, addressLine, postcode, city, emailAddress, password, confirmPassword);
         }
 

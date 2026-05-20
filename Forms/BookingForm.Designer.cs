@@ -30,8 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BookingForm));
             this.pnlCard = new System.Windows.Forms.Panel();
-            this.pnlInput = new SmoothPanel();
             this.pnlInput2 = new SmoothPanel();
+            this.pnlInput = new SmoothPanel();
             this.lblTitle = new System.Windows.Forms.Label();
             this.pnlCard.SuspendLayout();
             this.pnlInput.SuspendLayout();
@@ -46,6 +46,16 @@
             this.pnlCard.Size = new System.Drawing.Size(1456, 783);
             this.pnlCard.TabIndex = 0;
             // 
+            // pnlInput2
+            // 
+            this.pnlInput2.AutoScroll = true;
+            this.pnlInput2.AutoScrollMinSize = new System.Drawing.Size(0, 25);
+            this.pnlInput2.BackColor = System.Drawing.Color.Transparent;
+            this.pnlInput2.Location = new System.Drawing.Point(784, 6);
+            this.pnlInput2.Name = "pnlInput2";
+            this.pnlInput2.Size = new System.Drawing.Size(657, 777);
+            this.pnlInput2.TabIndex = 7;
+            // 
             // pnlInput
             // 
             this.pnlInput.AutoScroll = true;
@@ -56,16 +66,6 @@
             this.pnlInput.Name = "pnlInput";
             this.pnlInput.Size = new System.Drawing.Size(775, 777);
             this.pnlInput.TabIndex = 6;
-            // 
-            // pnlInput2
-            // 
-            this.pnlInput2.AutoScroll = true;
-            this.pnlInput2.AutoScrollMinSize = new System.Drawing.Size(0, 25);
-            this.pnlInput2.BackColor = System.Drawing.Color.Transparent;
-            this.pnlInput2.Location = new System.Drawing.Point(784, 6);
-            this.pnlInput2.Name = "pnlInput2";
-            this.pnlInput2.Size = new System.Drawing.Size(669, 777);
-            this.pnlInput2.TabIndex = 7;
             // 
             // lblTitle
             // 

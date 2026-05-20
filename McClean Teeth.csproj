@@ -46,53 +46,51 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BookingForm.cs">
+    <Compile Include="Forms\BookingForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="BookingForm.Designer.cs">
+    <Compile Include="Forms\BookingForm.Designer.cs">
       <DependentUpon>BookingForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="RegistrationForm.cs">
+    <Compile Include="Forms\RegistrationForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RegistrationForm.Designer.cs">
+    <Compile Include="Forms\RegistrationForm.Designer.cs">
       <DependentUpon>RegistrationForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="AuthForm.cs">
+    <Compile Include="Forms\AuthForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AuthForm.Designer.cs">
+    <Compile Include="Forms\AuthForm.Designer.cs">
       <DependentUpon>AuthForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI Components\Inputs\InputPair.cs" />
+    <Compile Include="UI Components\Inputs\SingleInput.cs" />
+    <Compile Include="UI Components\Inputs\types\ComboBoxInput.cs" />
+    <Compile Include="UI Components\Inputs\types\CalendarInput.cs" />
+    <Compile Include="UI Components\Inputs\types\PasswordInput.cs" />
+    <Compile Include="UI Components\Inputs\types\TextBoxInput.cs" />
+    <Compile Include="UI Components\Inputs\UIInput.cs" />
+    <Compile Include="UI Components\Inputs\UIInputFactory.cs" />
+    <Compile Include="UI Components\Calendar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI Components\SmoothPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="User.cs" />
-    <Compile Include="Util\ColorUtil.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\TreatmentType.cs" />
-    <Compile Include="Util\UI Components\Inputs\InputPair.cs" />
-    <Compile Include="Util\UI Components\Inputs\SingleControlInput.cs" />
-    <Compile Include="Util\UI Components\Inputs\types\ComboBoxInput.cs" />
-    <Compile Include="Util\UI Components\Inputs\types\MonthCalendarInput.cs" />
-    <Compile Include="Util\UI Components\Inputs\types\PasswordInput.cs" />
-    <Compile Include="Util\UI Components\Inputs\types\TextBoxInput.cs" />
-    <Compile Include="Util\UI Components\Inputs\UIInput.cs" />
-    <Compile Include="Util\UI Components\Inputs\UIInputFactory.cs" />
-    <Compile Include="Util\UI Components\ScaleableCalendar.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Util\UI Components\SmoothPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Util\UIUtil.cs" />
     <Compile Include="Util\ValidationUtil.cs" />
-    <Compile Include="Variables.cs" />
-    <EmbeddedResource Include="BookingForm.resx">
+    <Compile Include="Util\Variables.cs" />
+    <EmbeddedResource Include="Forms\BookingForm.resx">
       <DependentUpon>BookingForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RegistrationForm.resx">
+    <EmbeddedResource Include="Forms\RegistrationForm.resx">
       <DependentUpon>RegistrationForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AuthForm.resx">
+    <EmbeddedResource Include="Forms\AuthForm.resx">
       <DependentUpon>AuthForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 
 namespace McClean_Teeth.Util
 {
@@ -34,23 +35,15 @@ namespace McClean_Teeth.Util
 
     public static class TreatmentTypeUtil
     {
-        public static string GetDisplayName(
-            TreatmentType treatment
-        )
+        public static string GetDisplayName(TreatmentType treatment)
         {
-            var field = treatment
+            FieldInfo field = treatment
                 .GetType()
                 .GetField(treatment.ToString());
 
-            var attribute = (DescriptionAttribute)
-                Attribute.GetCustomAttribute(
-                    field,
-                    typeof(DescriptionAttribute)
-                );
+            DescriptionAttribute attribute = (DescriptionAttribute) Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute));
 
-            return attribute != null
-                ? attribute.Description
-                : treatment.ToString();
+            return attribute != null ? attribute.Description : treatment.ToString();
         }
 
         public static List<string> GetAllDisplayNames()
