@@ -103,10 +103,10 @@ namespace McClean_Teeth
             Button createAccountButton = UIUtil.CreateInputSecondaryButton(pnlInput, "Create Account", pnlInput.Height - 90);
             createAccountButton.Click += (sender, e) =>
             {
-                this.Hide();
-
                 RegistrationForm registrationForm = new RegistrationForm();
                 registrationForm.ShowDialog();
+
+                this.Close();    
             };
         }
 

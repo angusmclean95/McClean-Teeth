@@ -100,10 +100,10 @@ namespace McClean_Teeth
             account.Location = new Point(-5, 720);
             account.Click += (sender, e) =>
             {
-                this.Hide();
-
                 AuthForm lgoinForm = new AuthForm();
                 lgoinForm.ShowDialog();
+
+                this.Close();
             };
             pnlInput.Controls.Add(account);
 
