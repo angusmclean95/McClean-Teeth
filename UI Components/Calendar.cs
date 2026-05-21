@@ -23,8 +23,8 @@ namespace McClean_Teeth.Util.UI_Components
         private Rectangle _minuteUpRect;
         private Rectangle _minuteDownRect;
 
-        private int _selectedHour = DateTime.Now.Hour;
-        private int _selectedMinute = DateTime.Now.Minute;
+        private int _selectedHour;
+        private int _selectedMinute;
 
         public DateTime SelectedDateTime =>
             new DateTime(
@@ -59,6 +59,18 @@ namespace McClean_Teeth.Util.UI_Components
                     return;
 
                 _selectedDate = value;
+
+                if (_selectedDate.Value.Date == DateTime.Today)
+                {
+                    DateTime minimumAllowed = GetMinimumAllowedTime();
+
+                    if (SelectedDateTime < minimumAllowed)
+                    {
+                        _selectedHour = minimumAllowed.Hour;
+                        _selectedMinute = minimumAllowed.Minute;
+                    }
+                }
+
                 Invalidate();
             }
         }
@@ -74,6 +86,11 @@ namespace McClean_Teeth.Util.UI_Components
             Size = new Size(700, 450);
 
             BackColor = Color.White;
+
+            DateTime minimumTime = GetMinimumAllowedTime();
+
+            _selectedHour = minimumTime.Hour;
+            _selectedMinute = minimumTime.Minute;
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -323,28 +340,60 @@ namespace McClean_Teeth.Util.UI_Components
 
             if (_hourUpRect.Contains(e.Location))
             {
-                _selectedHour = (_selectedHour + 1) % 24;
+                DateTime next =
+                    SelectedDateTime.AddHours(1);
+
+                _selectedHour = next.Hour;
+                _selectedMinute = next.Minute;
+
                 Invalidate();
                 return;
             }
 
             if (_hourDownRect.Contains(e.Location))
             {
-                _selectedHour = (_selectedHour - 1 + 24) % 24;
+                DateTime next =
+                    SelectedDateTime.AddHours(-1);
+
+                DateTime minimumAllowed = GetMinimumAllowedTime();
+
+                if (SelectedDate.Value.Date == DateTime.Today &&
+                    next < minimumAllowed)
+                    return;
+
+                _selectedHour = next.Hour;
+                _selectedMinute = next.Minute;
+
                 Invalidate();
                 return;
             }
 
             if (_minuteUpRect.Contains(e.Location))
             {
-                _selectedMinute = (_selectedMinute + 1) % 60;
+                DateTime next =
+                    SelectedDateTime.AddMinutes(5);
+
+                _selectedHour = next.Hour;
+                _selectedMinute = next.Minute;
+
                 Invalidate();
                 return;
             }
 
             if (_minuteDownRect.Contains(e.Location))
             {
-                _selectedMinute = (_selectedMinute - 1 + 60) % 60;
+                DateTime next =
+                    SelectedDateTime.AddMinutes(-5);
+
+                DateTime minimumAllowed = GetMinimumAllowedTime();
+
+                if (SelectedDate.Value.Date == DateTime.Today &&
+                    next < minimumAllowed)
+                    return;
+
+                _selectedHour = next.Hour;
+                _selectedMinute = next.Minute;
+
                 Invalidate();
                 return;
             }
@@ -387,6 +436,27 @@ namespace McClean_Teeth.Util.UI_Components
                 return;
 
             SelectedDate = clickedDate;
+        }
+
+        private DateTime GetMinimumAllowedTime()
+        {
+            DateTime now = DateTime.Now;
+
+            int roundedMinutes = ((now.Minute + 4) / 5) * 5;
+
+            if (roundedMinutes >= 60)
+            {
+                now = now.AddHours(1);
+                roundedMinutes = 0;
+            }
+
+            return new DateTime(
+                now.Year,
+                now.Month,
+                now.Day,
+                now.Hour,
+                roundedMinutes,
+                0);
         }
     }
 }

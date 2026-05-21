@@ -105,6 +105,8 @@ namespace McClean_Teeth
             Button createAccountButton = UIInputFactory.CreateSecondaryButton(pnlInput, "Create Account", pnlInput.Height - 90);
             createAccountButton.Click += (sender, e) =>
             {
+                this.Hide();
+
                 RegistrationForm registrationForm = new RegistrationForm();
                 registrationForm.ShowDialog();
 
@@ -124,7 +126,9 @@ namespace McClean_Teeth
                     return;
                 }
 
-                BookingForm form = new BookingForm(new User(usernameEmailBox.Control.Text, passwordBox.Control.Text));
+                this.Hide();
+
+                AppointmentsForm form = new AppointmentsForm(new Customer(usernameEmailBox.Control.Text, passwordBox.Control.Text));
                 form.ShowDialog();
                 this.Close();
             };

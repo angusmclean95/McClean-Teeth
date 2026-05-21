@@ -17,9 +17,9 @@ namespace McClean_Teeth
 {
     public partial class BookingForm : Form
     {
-        private User loggedIn;
+        private Customer loggedIn;
 
-        public BookingForm(User loggedIn)
+        public BookingForm(Customer loggedIn)
         {
             InitializeComponent();
 

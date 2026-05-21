@@ -75,24 +75,24 @@ namespace McClean_Teeth
 
             // Names
             InputPair<TextBoxInput> namesPair = UIInputFactory.CreateTextBoxPair(pnlInput, "Forename", "Surname", 240);
-            TextBoxInput forename = namesPair.GetFirst();
-            TextBoxInput surname = namesPair.GetSecond();
+            TextBoxInput forename = namesPair.First;
+            TextBoxInput surname = namesPair.Second;
 
             //Address Line 1 & 2
             TextBoxInput addressLine = UIInputFactory.CreateTextBox(pnlInput, "Address Line", 340);
 
             // Postcode and City
             InputPair<TextBoxInput> addressPair = UIInputFactory.CreateTextBoxPair(pnlInput, "Postcode", "City", 440);
-            TextBoxInput postcode = addressPair.GetFirst();
-            TextBoxInput city = addressPair.GetSecond();
+            TextBoxInput postcode = addressPair.First;
+            TextBoxInput city = addressPair.Second;
 
             // Email Address
             TextBoxInput emailAddress = UIInputFactory.CreateTextBox(pnlInput, "Email Address", 540);
 
             // Password and Confirm
-            InputPair<TextBoxInput> passwordPair = UIInputFactory.CreateTextBoxPair(pnlInput, "Password", "Confirm Password", 640);
-            TextBoxInput password = passwordPair.GetFirst();
-            TextBoxInput confirmPassword = passwordPair.GetSecond();
+            InputPair<PasswordInput> passwordPair = UIInputFactory.CreatePasswordInputPair(pnlInput, "Password", "Confirm Password", 640);
+            PasswordInput password = passwordPair.First;
+            PasswordInput confirmPassword = passwordPair.Second;
 
             Label account = new Label();
             account.Text = "Already got an account? Log in here!";
@@ -102,6 +102,8 @@ namespace McClean_Teeth
             account.Location = new Point(-5, 720);
             account.Click += (sender, e) =>
             {
+                this.Hide();
+
                 AuthForm lgoinForm = new AuthForm();
                 lgoinForm.ShowDialog();
 
