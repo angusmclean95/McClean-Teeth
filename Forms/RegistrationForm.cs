@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,6 +16,10 @@ namespace McClean_Teeth
 {
     public partial class RegistrationForm : Form
     {
+        // MySQL Queries
+        private static readonly string INSERT_USER = "INSERT INTO customer_details (Forename, Surname, Address, Email, Password) VALUES (@Forename, @Surname, @Address, @Email, @Password)";
+        private static readonly string CHECK_USER_EXISTS = "SELECT * FROM customer_details WHERE Email = @Email";
+
         public RegistrationForm()
         {
             InitializeComponent();
@@ -127,15 +132,15 @@ namespace McClean_Teeth
                 }
 
                 string inputtedPostcode = postcode.Control.Text;
-                if(!ValidationUtil.isValidPostcode(inputtedPostcode))
+                if (!ValidationUtil.isValidPostcode(inputtedPostcode))
                 {
                     MessageBox.Show("Please enter a valid Postcode", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-               
+
                 string inputtedEmail = emailAddress.Control.Text;
-                if(!ValidationUtil.isValidEmailAddress(inputtedEmail))
+                if (!ValidationUtil.isValidEmailAddress(inputtedEmail))
                 {
                     MessageBox.Show("Please enter a valid Email Address", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -156,8 +161,58 @@ namespace McClean_Teeth
                     return;
                 }
 
+                if (CheckForExistingEmail(inputtedEmail))
+                {
+                    MessageBox.Show("An account with this email already exists, please try again!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
+                RegisterUser(
+                    forename.Control.Text,
+                    surname.Control.Text,
+                    addressLine.Control.Text,
+                    city.Control.Text,
+                    postcode.Control.Text,
+                    emailAddress.Control.Text,
+                    password.Control.Text
+                );
             };
+        }
+
+        private bool CheckForExistingEmail(string email)
+        {
+            List<Dictionary<string, object>> existingUsers = Program.database.Query(CHECK_USER_EXISTS, new Dictionary<string, object>
+            {
+                { "@Email", email }
+            });
+
+            return existingUsers.Count > 0;
+        }
+
+        private void RegisterUser(string forename, string surname, string addressLine, string city, string postcode, string email, string password)
+        {
+            Program.database.Execute(INSERT_USER, new Dictionary<string, object>
+                {
+                    { "@Forename", forename },
+                    { "@Surname", surname },
+
+                    { "@Address",
+                        addressLine + ", " +
+                        city + ", " +
+                        postcode
+                },
+
+                    { "@Email", email },
+
+                    { "@Password", password }
+                });
+
+            MessageBox.Show("Account Registered Successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            this.Hide();
+            AuthForm loginForm = new AuthForm();
+            loginForm.ShowDialog();
+            this.Close();
         }
     }
 }

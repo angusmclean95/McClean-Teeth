@@ -14,6 +14,9 @@ namespace McClean_Teeth
 {
     public partial class AuthForm : Form
     {
+        // MySQL Queries
+        private static readonly string LOGIN_USER = "SELECT Forename, Surname, Email FROM customer_details WHERE Email = @Email AND Password = @Password";
+
         public AuthForm()
         {
             InitializeComponent();
@@ -118,18 +121,61 @@ namespace McClean_Teeth
         {
             confirm.Click += (sender, e) =>
             {
-                string username = usernameEmailBox.Control.Text;
+                string email = usernameEmailBox.Control.Text.Trim();
                 string password = passwordBox.Control.Text;
-                if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password)) 
+
+                // Empty validation
+                if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
                 {
-                    MessageBox.Show("Please enter valid Username and Password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(
+                        "Please enter your email and password.",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+
                     return;
                 }
 
+                // Check account exists
+                List<Dictionary<string, object>> users =Program.database.Query(LOGIN_USER, new Dictionary<string, object>
+                {
+                    { "@Email", email },
+                    { "@Password", password }
+                });
+
+                // Invalid login
+                if (users.Count == 0)
+                {
+                    MessageBox.Show(
+                        "Invalid email or password.",
+                        "Login Failed",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+                    return;
+                }
+
+                // Successful login
+                Dictionary<string, object> user = users[0];
+
+                Customer customer = new Customer(
+                    user["Forename"].ToString(),
+                    user["Surname"].ToString(),
+                    user["Email"].ToString()
+                );
+
+                MessageBox.Show(
+                    "Login successful!",
+                    "Success",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+
                 this.Hide();
 
-                AppointmentsForm form = new AppointmentsForm(new Customer(usernameEmailBox.Control.Text, passwordBox.Control.Text));
+                BookingForm form = new BookingForm(customer);
                 form.ShowDialog();
+
                 this.Close();
             };
         }

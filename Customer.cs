@@ -1,20 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace McClean_Teeth
 {
     public class Customer
     {
-        public string Username { get; }
-        public string Password { get; }
+        public string Forename { get; }
+        public string Surname { get; }
+        public string Email { get; }
 
-        public Customer(string username, string password)
+        public string Username
         {
-            this.Username = username;
-            this.Password = password;
+            get
+            {
+                return Forename.Substring(0, 1).ToUpper() +
+                       ". " +
+                       Surname;
+            }
+        }
+
+        public Customer(string forename, string surname, string email)
+        {
+            this.Forename = forename;
+            this.Surname = surname;
+            this.Email = email;
         }
     }
 }
