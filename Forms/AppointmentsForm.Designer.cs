@@ -62,7 +62,7 @@
             this.pnlAppointments.BackColor = System.Drawing.Color.Transparent;
             this.pnlAppointments.Location = new System.Drawing.Point(13, 63);
             this.pnlAppointments.Name = "pnlAppointments";
-            this.pnlAppointments.Size = new System.Drawing.Size(1426, 700);
+            this.pnlAppointments.Size = new System.Drawing.Size(1426, 530);
             this.pnlAppointments.TabIndex = 6;
             // 
             // AppointmentsForm

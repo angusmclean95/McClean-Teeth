@@ -17,23 +17,20 @@ namespace McClean_Teeth
 {
     public partial class AppointmentsForm : Form
     {
+        // MySQL Queries
+        private static readonly string GET_APPOINTMENTS = "SELECT BookingID, Treatment, BookingDate, BookingTime, Notes, CustomerID FROM booking_details WHERE CustomerID = @CustomerID ORDER BY BookingDate, BookingTime";
+
         private Customer loggedIn;
 
-        // FAKE DATA
-        private Appointment[] appointments;
+        private List<Appointment> appointments = new List<Appointment>();
 
         public AppointmentsForm(Customer loggedIn)
         {
             InitializeComponent();
 
             this.loggedIn = loggedIn;
-            this.appointments = new Appointment[] {
-                new Appointment(loggedIn, DateTime.Now.AddDays(1), TreatmentType.Filling, "I need a new filling placed onto my tooth."),
-                new Appointment(loggedIn, DateTime.Now.AddDays(3), TreatmentType.Hygiene, "I need a cleaning done on my teeth."),
-                new Appointment(loggedIn, DateTime.Now.AddDays(5), TreatmentType.Teeth_Whitening, "I want to get my teeth whitened for an upcoming event."),
-                new Appointment(loggedIn, DateTime.Now.AddMinutes(5), TreatmentType.Veneers, "I need to get a veneer placed on my front tooth."),
-                new Appointment(loggedIn, DateTime.Now.AddMonths(1), TreatmentType.Checkup, "I just want to get a checkup done on my teeth.")
-            };
+
+            LoadAppointmentsFromDatabase();
 
             InitForm();
             InitPanel();
@@ -67,13 +64,47 @@ namespace McClean_Teeth
                 (this.ClientSize.Width - pnlCard.Width) / 2,
                 (this.ClientSize.Height - pnlCard.Height) / 2
             );
+
+            lblTitle.ForeColor = Variables.FOREGROUND_COLOUR;
+
+            Button bookButton = UIInputFactory.CreateSecondaryButton(pnlCard, "Book New Appointment", lblTitle.Location.Y);
+            bookButton.Width = pnlCard.Width - 20;
+            bookButton.Location = new Point(10, pnlCard.Height - bookButton.Height - 10);
+            bookButton.Click += (sender, e) =>
+            {
+                this.Hide();
+                BookingForm bookingForm = new BookingForm(loggedIn);
+                bookingForm.ShowDialog();
+                this.Close();
+            };
         }
 
         private void InitCards()
         {
-            for (int i = 0; i < appointments.Length; i++)
+            for (int i = 0; i < appointments.Count; i++)
             {
                 appointments[i].CreateCard(pnlAppointments, i);
+            }
+        }
+
+        private void LoadAppointmentsFromDatabase()
+        {
+            List<Dictionary<string, object>> rows = Program.database.Query(GET_APPOINTMENTS, new Dictionary<string, object>
+            {
+                { "@CustomerID", loggedIn.CustomerID }
+            });
+
+            appointments.Clear();
+
+            foreach (var row in rows)
+            {
+                appointments.Add(new Appointment(
+                    loggedIn,
+                    ((DateTime)row["BookingDate"]).Date + (TimeSpan)row["BookingTime"],
+                    TreatmentTypeUtil.FromUppercase(row["Treatment"].ToString()),
+                    row["Notes"].ToString()
+                ));
+
             }
         }
     }

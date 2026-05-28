@@ -17,6 +17,10 @@ namespace McClean_Teeth
 {
     public partial class BookingForm : Form
     {
+        // MySQL Queries
+        private static readonly string INSERT_BOOKING = "INSERT INTO booking_details (Treatment, BookingDate, BookingTime, Notes, CustomerID) VALUES (@Treatment, @BookingDate, @BookingTime, @Notes, @CustomerID)";
+        private static readonly string CHECK_BOOKING_EXISTS = "SELECT COUNT(*) AS Count FROM booking_details WHERE BookingDate = @BookingDate AND BookingTime = @BookingTime";
+
         private Customer loggedIn;
 
         public BookingForm(Customer loggedIn)
@@ -85,51 +89,88 @@ namespace McClean_Teeth
 
             // Confirm Button
             Button confirmButton = UIInputFactory.CreatePrimaryButton(pnlInput, "Book Appointment", 600);
-            //ClickConfirm(confirmButton, forename, surname, addressLine, postcode, city, emailAddress, password, confirmPassword);
+            ClickConfirm(confirmButton, treatmentSelection, moreInfo, date);
         }
 
-        //private void ClickConfirm(Button confirm, TextBox forename, TextBox surname, TextBox addressLine, TextBox postcode, TextBox city, TextBox emailAddress, TextBox password, TextBox confirmPassword)
-        //{
-        //    confirm.Click += (sender, e) =>
-        //    {
-        //        if (ValidationUtil.isNullOrEmpty(forename, surname, addressLine, postcode, city, emailAddress, password, confirmPassword))
-        //        {
-        //            MessageBox.Show("Please fill in all fields required.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //            return;
-        //        }
+        private bool IsSlotAlreadyBooked(DateTime selectedDate)
+        {
+            List<Dictionary<string, object>> result = Program.database.Query(CHECK_BOOKING_EXISTS, new Dictionary<string, object>
+            {
+                { "@BookingDate", selectedDate.Date },
+                { "@BookingTime", selectedDate.TimeOfDay }
+            });
 
-        //        string inputtedPostcode = postcode.Text;
-        //        if(!ValidationUtil.isValidPostcode(inputtedPostcode))
-        //        {
-        //            MessageBox.Show("Please enter a valid Postcode", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //            return;
-        //        }
+            if (result.Count == 0)
+            {
+                return false;
+            }
 
+            int count = Convert.ToInt32(result[0]["Count"]);
+            return count > 0;
+        }
 
-        //        string inputtedEmail = emailAddress.Text;
-        //        if(!ValidationUtil.isValidEmailAddress(inputtedEmail))
-        //        {
-        //            MessageBox.Show("Please enter a valid Email Address", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //            return;
-        //        }
+        private void ClickConfirm(Button confirm, ComboBoxInput treatmentSelection, TextBoxInput moreInfo, CalendarInput date)
+        {
+            confirm.Click += (sender, e) =>
+            {
+                if (treatmentSelection.Control.SelectedIndex == -1)
+                {
+                    MessageBox.Show(
+                        "Please select a treatment.",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+                    return;
+                }
 
-        //        string inputtedPassword = password.Text;
-        //        string inputtedConfirmPassword = confirmPassword.Text;
+                TreatmentType treatment = TreatmentTypeUtil.FromDisplayName(treatmentSelection.Control.SelectedItem.ToString());
+                DateTime selectedDate = date.Control.SelectedDateTime;
 
-        //        if (!ValidationUtil.isMatching(inputtedPassword, inputtedConfirmPassword))
-        //        {
-        //            MessageBox.Show("Password's do not match, Please try again", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //            return;
-        //        }
+                // Prevent past bookings
+                if (selectedDate < DateTime.Now)
+                {
+                    MessageBox.Show(
+                        "You cannot book an appointment in the past.",
+                        "Invalid Date",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+                    return;
+                }
 
-        //        if (!ValidationUtil.isValidPassword(inputtedPassword))
-        //        {
-        //            MessageBox.Show("Please enter a valid Password. Minimum of 8 characters containing at least 1 Uppercase, 1 Lowercase, 1 number & 1 symbol", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //            return;
-        //        }
+                // Check if slot already exists
+                if (IsSlotAlreadyBooked(selectedDate))
+                {
+                    MessageBox.Show(
+                        "This appointment slot is already booked. Please choose another date or time.",
+                        "Slot Unavailable",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
+                    return;
+                }
 
+                Program.database.Execute(INSERT_BOOKING, new Dictionary<string, object>
+                {
+                    { "@Treatment", treatment.ToString() },
+                    { "@BookingDate", selectedDate.Date },
+                    { "@BookingTime", selectedDate.TimeOfDay },
+                    { "@Notes", moreInfo.Control.Text },
+                    { "@CustomerID", loggedIn.CustomerID }
+                });
 
-        //    };
-        //}
+                MessageBox.Show(
+                    "Appointment booked successfully!",
+                    "Success",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+
+                this.Hide();
+                new AppointmentsForm(loggedIn).ShowDialog();
+                this.Close();
+            };
+        }
     }
 }

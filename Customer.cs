@@ -4,6 +4,7 @@ namespace McClean_Teeth
 {
     public class Customer
     {
+        public int CustomerID { get; }
         public string Forename { get; }
         public string Surname { get; }
         public string Email { get; }
@@ -12,14 +13,13 @@ namespace McClean_Teeth
         {
             get
             {
-                return Forename.Substring(0, 1).ToUpper() +
-                       ". " +
-                       Surname;
+                return Forename.Substring(0, 1).ToUpper() + ". " + Surname;
             }
         }
 
-        public Customer(string forename, string surname, string email)
+        public Customer(int customerId, string forename, string surname, string email)
         {
+            this.CustomerID = customerId;
             this.Forename = forename;
             this.Surname = surname;
             this.Email = email;

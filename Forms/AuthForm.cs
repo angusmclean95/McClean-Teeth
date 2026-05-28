@@ -15,7 +15,7 @@ namespace McClean_Teeth
     public partial class AuthForm : Form
     {
         // MySQL Queries
-        private static readonly string LOGIN_USER = "SELECT Forename, Surname, Email FROM customer_details WHERE Email = @Email AND Password = @Password";
+        private static readonly string LOGIN_USER = "SELECT CustomerID, Forename, Surname, Email FROM customer_details WHERE Email = @Email AND Password = @Password";
 
         public AuthForm()
         {
@@ -159,6 +159,7 @@ namespace McClean_Teeth
                 Dictionary<string, object> user = users[0];
 
                 Customer customer = new Customer(
+                    Convert.ToInt32(user["CustomerID"]),
                     user["Forename"].ToString(),
                     user["Surname"].ToString(),
                     user["Email"].ToString()
@@ -173,7 +174,7 @@ namespace McClean_Teeth
 
                 this.Hide();
 
-                BookingForm form = new BookingForm(customer);
+                AppointmentsForm form = new AppointmentsForm(customer);
                 form.ShowDialog();
 
                 this.Close();
