@@ -153,7 +153,7 @@ namespace McClean_Teeth
 
                 Program.database.Execute(INSERT_BOOKING, new Dictionary<string, object>
                 {
-                    { "@Treatment", treatment.ToString() },
+                    { "@Treatment", treatment.ToString().ToUpper() },
                     { "@BookingDate", selectedDate.Date },
                     { "@BookingTime", selectedDate.TimeOfDay },
                     { "@Notes", moreInfo.Control.Text },

@@ -35,6 +35,10 @@ namespace McClean_Teeth.Util
 
     public static class TreatmentTypeUtil
     {
+        /*
+         * Gets the display name for a specific
+         * treatment type.
+         */
         public static string GetDisplayName(TreatmentType treatment)
         {
             FieldInfo field = treatment
@@ -46,6 +50,9 @@ namespace McClean_Teeth.Util
             return attribute != null ? attribute.Description : treatment.ToString();
         }
 
+        /*
+         * Gets the TreatmentType enum value from an uppercase string.
+         */
         public static TreatmentType FromUppercase(string uppercased)
         {
             foreach (TreatmentType treatment in Enum.GetValues(typeof(TreatmentType)))
@@ -58,6 +65,9 @@ namespace McClean_Teeth.Util
             throw new ArgumentException($"No TreatmentType with uppercase name '{uppercased}' found.");
         }
 
+        /*
+         * Gets the TreatmentType enum value from a display name string.
+         */
         public static TreatmentType FromDisplayName(string displayName)
         {
             foreach (TreatmentType treatment in Enum.GetValues(typeof(TreatmentType)))
@@ -70,6 +80,9 @@ namespace McClean_Teeth.Util
             throw new ArgumentException($"No TreatmentType with display name '{displayName}' found.");
         }
 
+        /*
+         * Returns a list of all display names for the TreatmentType enum.
+         */
         public static List<string> GetAllDisplayNames()
         {
             return Enum

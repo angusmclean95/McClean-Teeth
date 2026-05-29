@@ -9,6 +9,11 @@ namespace McClean_Teeth
         public string Surname { get; }
         public string Email { get; }
 
+        /*
+         * Creates a username for the customer
+         * with the format of forename inital and
+         * the surname.
+         */
         public string Username
         {
             get
